@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <title>Crypto Boleto - Novo</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <a class="navbar-brand" href="#">Boleto</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="novo.html">Novo <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="faq.html">FAQ</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron text-center bg-info text-white">
+        <h1 class="display-4">Criar um novo boleto</h1>
+        <br>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
+        <br>
+    </div>
+
+    <div class="container">
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="_ownerID">CPF/CNPJ Recebedor</label>
+                        <input type="number" class="form-control" id="_ownerID" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="_valorDoBoleto">Valor do Boleto</label>
+                        <input type="number" class="form-control" id="_valorDoBoleto" placeholder="0.000 ETH">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="_vencimento">Vencimento</label>
+                        <input type="number" class="form-control" id="_vencimento" placeholder="1574200846">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="_multaPorAtraso">Multa Por Atraso</label>
+                        <input type="number" class="form-control" id="_multaPorAtraso" placeholder="0.000 ETH">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="_jurosDeMoraPorDia">Juros de Mora Diário</label>
+                        <input type="number" class="form-control" id="_jurosDeMoraPorDia" placeholder="1">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-block btn-success mt-4">Registrar Boleto</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
