@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/bootstrap.min.css">
-
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
 
     <title>Crypto Boleto - Novo</title>
 
@@ -19,7 +20,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <a class="navbar-brand" href="#">Boleto</a>
+        <a class="navbar-brand" href="#">Boleto<i class="fa fa-bullseye ml-3"></i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,16 +35,14 @@
                     <a class="nav-link" href="novo.html">Novo <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="faq.html">FAQ</a>
+                    <a class="nav-link" href="faq.html">Info</a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="jumbotron text-center bg-info text-white">
-        <h1><i class="fa fa-star"></i></h1>
-        <br>
-        <h1 class="display-4">Criar um novo boleto</h1>
+        <h2><i class="fa fa-plus-circle mr-3"></i>Criar um novo Boleto</h2>
         <br>
         <p class="lead">Preencha os dados para criar um Crypto Boleto para receber de forma instantânea na sua cartera de Etehereum.</p>
         <br>
@@ -51,8 +50,8 @@
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="_ownerID">Wallet Recebedor</label>
-                        <input type="number" class="form-control" id="_ownerID" placeholder="0x00000000000000000">
+                        <label for="_ownerID">Identidade do Recebedor</label>
+                        <input type="text" class="form-control" id="_ownerID" placeholder="0x00000000000000000">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="_valorDoBoleto">Valor do Boleto (Ethereum)</label>
@@ -65,7 +64,7 @@
                         <input type="number" class="form-control" id="_vencimento" placeholder="1574200846">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="_vencimento">Não receber após (Timestamp)</label>
+                        <label for="_vencimento">Não Receber Após (Timestamp)</label>
                         <input type="number" class="form-control" id="_vencimento" placeholder="1574200846">
                     </div>
                 </div>
@@ -75,13 +74,17 @@
                         <input type="number" class="form-control" id="_multaPorAtraso" placeholder="0.000 ETH">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="_jurosDeMoraPorDia">Juros de Mora ao Dia (Porcentagem)</label>
+                        <label for="_jurosDeMoraPorDia">Juros de Mora ao Mês (Porcentagem)</label>
                         <input type="number" class="form-control" id="_jurosDeMoraPorDia" placeholder="1">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary mt-4">Registrar Boleto</button>
             </form>
         </div>
+    </div>
+
+    <div id="boleto" class="container">
+
     </div>
 
 
