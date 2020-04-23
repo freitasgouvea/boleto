@@ -1,4 +1,3 @@
-
 var status;
 
 var enderecoContrato = "0x891710b3475b3076Dd1F9C6a6A9b1f87BA5e0517"; //add
