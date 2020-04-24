@@ -324,7 +324,7 @@ var abiContrato = [
 	}
 ]
 
-let provider = ethers.providers.InfuraProvider('rinkeby');
+let provider = ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
 let contractAddress = "0xE1E8035ae15EcD8D5b4593CAF22Eff90d95A209D"; //add
 let contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
