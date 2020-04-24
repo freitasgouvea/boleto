@@ -1,24 +1,21 @@
 var status;
 
-var enderecoContrato = "0x891710b3475b3076Dd1F9C6a6A9b1f87BA5e0517"; //add
-var provedor = ethers.getDefaultProvider('rinkeby'); //main
-var contrato = new ethers.Contract(enderecoContrato, abiContrato, provedor);
+var contractAddress = "0x891710b3475b3076Dd1F9C6a6A9b1f87BA5e0517"; //add
+var provider = ethers.getDefaultProvider('rinkeby'); //main
+var contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
-var viewBoleto = document.getElementById("returnBoleto");
-var viewDetalhes = document.getElementById("returnDetalhes");
-
-// => arrow function: (resultado) => { declaração }
-
-contrato.verBoleto()
-    .then((resultado) => {
-        viewBoleto.innerHTML = resultado;
-    })
-    .catch((err) => {
-        console.error(err);
-        viewBoleto.innerHTML = err;
-    });                     
-}();
-
-// funcao().
-//    .then(funçao a ser chamada em caso de sucesso () => {} )
-//    .catch(funcao a ser chamada em caso de erro () => {})
+async function obtemBoletoHash() {
+    let frm = document.boletoForm
+    try {
+        if (contract) {
+            console.log('obtemBoletoHash', 'iniciando busca', frm.boleto.value)
+            let detalhes = await contract.verBoleto(frm.boleto.value)
+            document.getElementById("viewBoleto").style.display = "block"
+            $("#viewBoleto").html(detalhes);
+            document.getElementById("boletoForm").style.display = "none"
+        }
+    } catch (err) {
+        console.error('obtemBoletooHash', err)
+        alert("Não foi possível encontrar este boleto, tente novamente.")
+    }
+}
