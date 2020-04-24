@@ -335,7 +335,7 @@ async function obtemBoletoHash() {
 			let detalhes = await contract.verBoleto(frm.boleto.value)
 			console.log(detalhes)
             document.getElementById("viewBoleto").style.display = "block"
-            $("#viewBoleto").html(detalhes);
+            $("#viewBoleto").html(detalhes[0]);
             document.getElementById("boletoForm").style.display = "none"
         }
     } catch (err) {
