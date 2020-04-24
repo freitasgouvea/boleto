@@ -116,6 +116,11 @@ var abiContrato = [
 			},
 			{
 				"internalType": "uint256",
+				"name": "_dataLimite",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "_multaPorAtraso",
 				"type": "uint256"
 			},
@@ -171,29 +176,9 @@ var abiContrato = [
 		"name": "detalhesBoleto",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "bytes32",
 				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"type": "bytes32"
 			},
 			{
 				"internalType": "uint256",
@@ -204,6 +189,21 @@ var abiContrato = [
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -213,71 +213,41 @@ var abiContrato = [
 		"inputs": [
 			{
 				"internalType": "bytes32",
-				"name": "",
+				"name": "hashBoleto",
 				"type": "bytes32"
 			}
 		],
-		"name": "listaDeBoletos",
+		"name": "reciboBoleto",
 		"outputs": [
 			{
-				"internalType": "address payable",
-				"name": "owner",
+				"internalType": "address",
+				"name": "",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "ownerID",
+				"name": "",
 				"type": "string"
 			},
 			{
-				"internalType": "address payable",
-				"name": "payer",
+				"internalType": "address",
+				"name": "",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "payerID",
+				"name": "",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "valorDoBoleto",
+				"name": "",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "vencimento",
+				"name": "",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "multaPorAtraso",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "jurosDeMora",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "dataDoPagamento",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "valorPago",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "ativo",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "pagamento",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -317,6 +287,11 @@ var abiContrato = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -325,21 +300,60 @@ var abiContrato = [
 ]
 
 let provider = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
-let contractAddress = "0xE1E8035ae15EcD8D5b4593CAF22Eff90d95A209D"; //add
+let contractAddress = "0xAbaC6e1dDcE1c2B4dafBD6E6a1Adb3096Fe2Cb61";
 let contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
 async function obtemBoletoHash() {
-    let frm = document.boletoForm
-    try {
-        if (contract) {
-			let detalhes = await contract.verBoleto(frm.boleto.value)
-			console.log(detalhes)
+	let frm = document.boletoForm
+	try {
+		if (contract) {
+			let details = await contract.detalhesBoleto(frm.boleto.value)
+			let view = await contract.verBoleto(frm.boleto.value)
+			console.log(details, view)
+			document.getElementById("searchBoleto").style.display = "none"
 			document.getElementById("viewBoleto").style.display = "block"
-			document.getElementById("viewBoleto").innerHTML = detalhes[0];
-            document.getElementById("boletoForm").style.display = "none"
-        }
-    } catch (err) {
-        console.error('obtemBoletooHash', err)
-        alert("Não foi possível encontrar este boleto, tente novamente.")
-    }
+			document.getElementById("hashBoleto").innerHTML = details[0];
+			document.getElementById("dataDaCraiacaoBoleto").innerHTML = details[1];
+			document.getElementById("statusBoleto").innerHTML = details[2];
+			document.getElementById("statusPagamento").innerHTML = details[3];
+			document.getElementById("ownerBoleto").innerHTML = details[4];
+			document.getElementById("ownerIdBoleto").innerHTML = details[5];
+			document.getElementById("valorDoBoleto").innerHTML = view[0];
+			document.getElementById("multaPorAtrasoBoleto").innerHTML = view[1];
+			document.getElementById("jurosDeMoraBoleto").innerHTML = view[2];
+			document.getElementById("vencimentoBoleto").innerHTML = view[3];
+			document.getElementById("valorAtualizadoBoleto").innerHTML = view[5];
+			document.getElementById("dataLimiteBoleto").innerHTML = view[4];
+			document.getElementById("linkBoleto").innerHTML = "https://boletom.com.br/" + details[0];
+			if (details[2] === false) {
+				let recipe = await contract.reciboBoleto(frm.boleto.value)
+				console.log(recipe)
+				document.getElementById("inactiveBoleto").style.display = "inline" 
+			} 
+			if (details[2] === true && details[3] === true) {
+				let recipe = await contract.reciboBoleto(frm.boleto.value)
+				console.log(recipe)
+				document.getElementById("payedBoleto").style.display = "inline" 
+				document.getElementById("botaoRecibo").style.display = "inline"
+				document.getElementById("ownerBoletoRecibo").innerHTML = recipe[0];
+				document.getElementById("ownerIdBoletoRecibo").innerHTML = recipe[1];
+				document.getElementById("payerBoleto").innerHTML = recipe[2];
+				document.getElementById("payerIdBoleto").innerHTML = recipe[3];
+				document.getElementById("dataDoPagamentoBoleto").innerHTML = recipe[4];
+				document.getElementById("valorPagoBoleto").innerHTML = recipe[5];
+			} 
+			else { 
+				document.getElementById("activeBoleto").style.display = "inline"
+				document.getElementById("unpayedBoleto").style.display = "inline" 
+				document.getElementById("payerBoletoDiv").style.display = "none"
+				document.getElementById("dataDoPagamentoBoletoDiv").style.display = "none"
+				document.getElementById("valorPagoBoletoDiv").style.display = "none"
+				document.getElementById("botaoPay").style.display = "inline"
+				document.getElementById("botaoPrint").style.display = "inline" 
+			}
+		}
+	} catch (err) {
+		console.error('obtemBoletoHash', err)
+		alert("Não foi possível encontrar o boleto, tente novamente.")
+	}
 }

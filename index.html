@@ -37,10 +37,10 @@
         </div>
     </nav>
 
-    <div class="jumbotron text-center text-white bg-info">
+    <div class="jumbotron text-center text-white bg-info" id="searchBoleto">
         <h1><i class="fa fa-bullseye fa-lg"></i></h1>
         <br>
-        <h2>Pagamento Instantâneo em Ethereum</h2>
+        <h2>Pagamento Instantâneo em Ether</h2>
         <br>
         <p class="lead">Para encontrar um boleto acesse diretamente pelo link ou digite o hash do título.</p>
         <br>
@@ -64,7 +64,67 @@
         </form>
     </div>
 
-    <p id="viewBoleto"></p>
+    <div class="jumbotron text-center text-white bg-info" id="viewBoleto" style="display:none;">
+        <h1><i class="fa fa-bullseye fa-lg"></i></h1>
+        <br>
+        <h2>Boleto Localizado</h2>
+        <br>
+        <p class="lead">Confira os detalhes do título e faça o pagamento com a sua wallet de Ether.</p>
+        <br>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div id="cardBoleto" class="card text-dark bg-light mb-3 max-width: 40rem;">
+                        <div class="card-body">
+                            <h1><i class="fa fa-money-check-alt text-primary"></i></h1>
+                            <h4 class="card-title">Título de Pagamento em Ether</h4>
+                            <p class="lead-1 mt-2">Hash: <span id="hashBoleto"></span><br><small class="lead-1">Criado
+                                    em: <span id="dataDaCraiacaoBoleto"></span></small></p>
+                            <div class="button-group mt-2 mb-4">
+                                <span style="display:none;" id="activeBoleto" class="badge badge-success">Ativo</span>
+                                <span style="display:none;" id="inactiveBoleto" class="badge badge-danger">Cancelado</span>
+                                <span style="display:none;" id="payedBoleto" class="badge badge-success">Pago</span>
+                                <span style="display:none;" id="unpayedBoleto" class="badge badge-warning">Em aberto</span>
+                            </div>
+                            <hr>
+                            <p class="lead">Recebedor: <span id="ownerIdBoleto"></span><br><small class="lead-1"><span
+                                        id="ownerBoleto"></span></small></p>
+                            <p class="lead" id="payerBoletoDiv">Pagador: <span id="payerIdBoleto"></span><br><small
+                                    class="lead-1"><span id="payerBoleto"></span></small></p>
+                            <p class="lead" id="dataDoPagamentoBoletoDiv">Data do pagamento: <span
+                                    id="dataDoPagamentoBoleto"></span></p>
+                            <p class="lead" id="valorPagoBoletoDiv">Valor pago: <span id="valorPagoBoleto"></span></p>
+                            <p class="lead">Valor: <span id="valorDoBoleto"></span></p>
+                            <p class="lead">Multa por atraso: <span id="multaPorAtrasoBoleto"></span></p>
+                            <p class="lead">Juros ao dia: <span id="jurosDeMoraBoleto"></span>%</p>
+                            <p class="lead">Data de vencimento: <span id="vencimentoBoleto"></span><br><small
+                                    class="lead-1">Não receber
+                                    após: <span id="dataLimiteBoleto"></span></small></p>
+                            <hr>
+                            <small class="lead-1">Link para Pagamento: <span id="linkBoleto"></span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="form" method="POST" id="boletoPayForm" name="boletoPayForm">
+            <p class="lead">Valor atualizado: <span id="valorAtualizadoBoleto"></span></p>
+            <div class="col-md-12">
+                <button class="btn btn-lg btn-success" style="display:none;" id="botaoPay" type="submit"
+                    onclick="pagarBoleto(); return false;">Pagar Boleto</button>
+            </div>
+        </form>
+        <div class="button-group mt-4">
+            <button class="btn btn-primary" style="display:none;" id="botaoPrint" onclick="PrintElem(cardBoleto)"><i
+                    class="fa fa-print"></i></button>
+            <button class="btn btn-primary ml-2" id="copyLink" onclick="copyToClipboard()"><i
+                    class="fa fa-link"></i></button>
+            <button class="btn btn-primary ml-2" id="copyLink" onclick="; return false;"><i
+                    class="fa fa-share"></i></button>
+
+        </div>
+
+    </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -113,7 +173,7 @@
     <script>
         function PrintElem(tagid) {
             var hashid = "#" + tagid;
-            var tagname = $(hashid).prop("diploma");
+            var tagname = $(hashid).prop("cardBoleto");
             var attributes = "";
             var attrs = document.getElementById(tagid).attributes;
             $.each(attrs, function (i, elem) {
@@ -135,7 +195,7 @@
     <script>
         function copyToClipboard() {
             /* Get the text field */
-            var copyText = document.getElementById("clipboard");
+            var copyText = document.getElementById("linkBoleto");
             /* Select the text field */
             copyText.select();
             copyText.setSelectionRange(0, 99999); /*For mobile devices*/
