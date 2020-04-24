@@ -324,20 +324,19 @@ var abiContrato = [
 	}
 ]
 
-let provider = ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
+let provider = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
 let contractAddress = "0xE1E8035ae15EcD8D5b4593CAF22Eff90d95A209D"; //add
 let contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
 async function obtemBoletoHash() {
     let frm = document.boletoForm
     try {
-
-            console.log('obtemBoletoHash', 'iniciando busca', frm.boleto.value)
+        if (contract) {
             let detalhes = await contract.verBoleto(frm.boleto.value)
             document.getElementById("viewBoleto").style.display = "block"
             $("#viewBoleto").html(detalhes);
             document.getElementById("boletoForm").style.display = "none"
-
+        }
     } catch (err) {
         console.error('obtemBoletooHash', err)
         alert("Não foi possível encontrar este boleto, tente novamente.")
