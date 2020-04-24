@@ -16,7 +16,7 @@ async function loadBasicSC(_factoryContractAddress) {
     try {
         contractAddress = _factoryContractAddress;
         // Use Infura's provider
-        provider = new ethers.providers.InfuraProvider('homestead');
+        provider = new ethers.providers.InfuraProvider('rinkeby');
         network = await provider.getNetwork();
         await loadBoletoSC();   
         $("#btnBuscarCertificado").prop('disabled', false);       
