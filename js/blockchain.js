@@ -303,6 +303,18 @@ let provider = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aa
 let contractAddress = "0xAbaC6e1dDcE1c2B4dafBD6E6a1Adb3096Fe2Cb61";
 let contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
+function timestampToDate(unixtime) {
+
+	var u = new Date(unixtime * 1000);
+
+	return ('0' + u.getUTCDate()).slice(-2) +
+		'/' + ('0' + u.getUTCMonth()).slice(-2) +
+		'/' + u.getUTCFullYear() +
+		' - ' + ('0' + u.getUTCHours()).slice(-2) +
+		':' + ('0' + u.getUTCMinutes()).slice(-2) +
+		':' + ('0' + u.getUTCSeconds()).slice(-2)
+}
+
 async function obtemBoletoHash() {
 	let frm = document.boletoForm
 	try {
@@ -313,43 +325,41 @@ async function obtemBoletoHash() {
 			document.getElementById("searchBoleto").style.display = "none"
 			document.getElementById("viewBoleto").style.display = "block"
 			document.getElementById("hashBoleto").innerHTML = details[0];
-			document.getElementById("dataDaCraiacaoBoleto").innerHTML = details[1];
-			document.getElementById("statusBoleto").innerHTML = details[2];
-			document.getElementById("statusPagamento").innerHTML = details[3];
+			document.getElementById("dataDaCraiacaoBoleto").innerHTML = timestampToDate(details[1]);
 			document.getElementById("ownerBoleto").innerHTML = details[4];
 			document.getElementById("ownerIdBoleto").innerHTML = details[5];
-			document.getElementById("valorDoBoleto").innerHTML = view[0];
-			document.getElementById("multaPorAtrasoBoleto").innerHTML = view[1];
+			document.getElementById("valorDoBoleto").innerHTML = view[0] / 1000000000000000000;
+			document.getElementById("multaPorAtrasoBoleto").innerHTML = view[1] / 1000000000000000000;
 			document.getElementById("jurosDeMoraBoleto").innerHTML = view[2];
-			document.getElementById("vencimentoBoleto").innerHTML = view[3];
-			document.getElementById("valorAtualizadoBoleto").innerHTML = view[5];
-			document.getElementById("dataLimiteBoleto").innerHTML = view[4];
+			document.getElementById("vencimentoBoleto").innerHTML = timestampToDate(view[3]);
+			document.getElementById("valorAtualizadoBoleto").innerHTML = view[5] / 1000000000000000000;
+			document.getElementById("dataLimiteBoleto").innerHTML = timestampToDate(view[4]);
 			document.getElementById("linkBoleto").innerHTML = "https://boletom.com.br/" + details[0];
-			if (details[2] === false) {
+			if (details[2] === false && details[3] === false) {
 				let recipe = await contract.reciboBoleto(frm.boleto.value)
 				console.log(recipe)
-				document.getElementById("inactiveBoleto").style.display = "inline" 
-			} 
-			if (details[2] === true && details[3] === true) {
+				document.getElementById("inactiveBoleto").style.display = "inline"
+			}
+			else if (details[2] === true && details[3] === true) {
 				let recipe = await contract.reciboBoleto(frm.boleto.value)
 				console.log(recipe)
-				document.getElementById("payedBoleto").style.display = "inline" 
+				document.getElementById("payedBoleto").style.display = "inline"
 				document.getElementById("botaoRecibo").style.display = "inline"
 				document.getElementById("ownerBoletoRecibo").innerHTML = recipe[0];
 				document.getElementById("ownerIdBoletoRecibo").innerHTML = recipe[1];
 				document.getElementById("payerBoleto").innerHTML = recipe[2];
 				document.getElementById("payerIdBoleto").innerHTML = recipe[3];
-				document.getElementById("dataDoPagamentoBoleto").innerHTML = recipe[4];
-				document.getElementById("valorPagoBoleto").innerHTML = recipe[5];
-			} 
-			else { 
+				document.getElementById("dataDoPagamentoBoleto").innerHTML = timestampToDate(recipe[4]);
+				document.getElementById("valorPagoBoleto").innerHTML = recipe[5] / 1000000000000000000;
+			}
+			else {
 				document.getElementById("activeBoleto").style.display = "inline"
-				document.getElementById("unpayedBoleto").style.display = "inline" 
+				document.getElementById("unpayedBoleto").style.display = "inline"
 				document.getElementById("payerBoletoDiv").style.display = "none"
 				document.getElementById("dataDoPagamentoBoletoDiv").style.display = "none"
 				document.getElementById("valorPagoBoletoDiv").style.display = "none"
 				document.getElementById("botaoPay").style.display = "inline"
-				document.getElementById("botaoPrint").style.display = "inline" 
+				document.getElementById("botaoPrint").style.display = "inline"
 			}
 		}
 	} catch (err) {
