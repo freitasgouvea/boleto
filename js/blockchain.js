@@ -1,5 +1,3 @@
-let status;
-
 var abiContrato = [
 	{
 		"inputs": [
