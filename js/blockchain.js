@@ -2,8 +2,6 @@ var contract;
 var provider;
 var contractAddress;
 
-loadBasicSC("0x0212fC2A0e2F5573155359C80F87318d926561B3");
-
 function canPerformTransaction() {
     if (signerAddress.length === 42) {
         return true
