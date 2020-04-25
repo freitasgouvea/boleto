@@ -1,4 +1,4 @@
-# boleto
+# Crypto Boleto
 
 Ethereum payment web app using ethers.js
 
