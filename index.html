@@ -17,9 +17,9 @@
 
 </head>
 
-<body class="bg-info">
+<body class="bg-primary">
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="index.html">Boleto<i class="fa fa-bullseye ml-2"></i></a>
+        <a class="navbar-brand" href="index.html">Crypto Boleto<i class="fa fa-bullseye ml-2"></i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -37,7 +37,7 @@
         </div>
     </nav>
 
-    <div class="jumbotron text-center text-white bg-info" id="searchBoleto">
+    <div class="jumbotron text-center text-white bg-primary" id="searchBoleto">
         <h1><i class="fa fa-bullseye fa-lg"></i></h1>
         <br>
         <h2>Pagamento Instantâneo em ETH</h2>
@@ -50,21 +50,21 @@
                 <div class="col-md-6">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text text-white bg-info" id="titulo">Código</span>
+                            <span class="input-group-text text-white bg-success" id="titulo">Código</span>
                         </div>
                         <input type="text" class="form-control" id="boleto" name="boleto">
                     </div>
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-12 mt-4">
-                    <button class="btn btn-lg btn-primary" id="search" type="submit"
+                    <button class="btn btn-lg btn-success" id="search" type="submit"
                         onclick="obtemBoletoHash(); return false;">Encontrar Boleto</button>
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="jumbotron text-center text-white bg-info" id="viewBoleto" style="display:none;">
+    <div class="jumbotron text-center text-white bg-primary" id="viewBoleto" style="display:none;">
         <h1><i class="fa fa-bullseye fa-lg"></i></h1>
         <br>
         <h2>Boleto Localizado</h2>
@@ -113,20 +113,26 @@
             <h4>Valor atualizado: <span id="valorAtualizadoBoleto"></span> ETH</h4>
             <div class="col-md-12 mt-4">
                 <button class="btn btn-lg btn-success" style="display:none;" id="botaoPay" type="submit"
-                    onclick="pagarBoleto(); return false;">Pagar Boleto</button>
+                    onclick="executePayment(); return false;">Pagar Boleto</button>
             </div>
         </form>
+        <div>
+            &nbsp;
+        </div>
+        <div id="boxCommStatus">
+            (Blockchain communication status)
+        </div>
         <div class="button-group mt-4">
-            <button class="btn btn-primary" id="botaoVoltar" onclick="reloadPage()"
+            <button class="btn btn-info" id="botaoVoltar" onclick="reloadPage()"
             data-toggle="tooltip" data-placement="top" title="Nova pesquisa"><i
                 class="fa fa-arrow-left"></i></button>
-            <button class="btn btn-primary" style="display:none;" id="botaoPrint" onclick="PrintElem(cardBoleto)"
+            <button class="btn btn-info ml-2" style="display:none;" id="botaoPrint" onclick="PrintElem(cardBoleto)"
                 data-toggle="tooltip" data-placement="top" title="Salvar cópia do boleto"><i
                     class="fa fa-print"></i></button>
-            <button class="btn btn-primary clipboard ml-2" id="copyLink" data-clipboard-target="#linkBoleto"
+            <button class="btn btn-info clipboard ml-2" id="copyLink" data-clipboard-target="#linkBoleto"
                 data-toggle="tooltip" data-placement="top" title="Copiar link para área de transferência"><i
                     class="fa fa-link"></i></button>
-            <button class="btn btn-primary ml-2" id="share" onclick="; return false;" data-toggle="tooltip"
+            <button class="btn btn-info ml-2" id="share" onclick="; return false;" data-toggle="tooltip"
                 data-placement="top" title="Compartilhar boleto"><i class="fa fa-share"></i></button>
 
         </div>
@@ -147,13 +153,13 @@
     <!-- Smart Contracts JavaScript -->
     <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.4/dist/web3.min.js"></script>
     <script src="./js/blockchain.js"></script>
 
     <!-- Misc Scripts -->
     <script>
         boletoURL = "https://freitasgouvea.github.io/boleto/boleto?"
         language = navigator.language.substring(0, 2)
-        //language = "pt"
         console.log(boletoURL + $('#boleto').val())
 
         function getUrlVars() {
@@ -194,6 +200,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
     <script>
         new ClipboardJS('.clipboard');
+    </script>
+
+    <script>
+        loading();
+        connectToWeb3();
     </script>
 
 

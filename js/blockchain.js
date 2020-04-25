@@ -1,4 +1,4 @@
-let abiContrato = [
+let contractAbi = [
 	{
 		"inputs": [
 			{
@@ -299,13 +299,18 @@ let abiContrato = [
 	}
 ]
 
-let provider = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
 let contractAddress = "0xAbaC6e1dDcE1c2B4dafBD6E6a1Adb3096Fe2Cb61";
-let contract = new ethers.Contract(contractAddress, abiContrato, provider);
 
-let web3Provider = new ethers.providers.Web3Provider(web3.currentProvider);
-const signer = provider.getSigner();
-console.log(web3Provider, signer);
+let currentAccount;
+
+let providerRead = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
+let contractRead = new ethers.Contract(contractAddress, contractAbi, providerRead);
+
+let providerSign = new ethers.providers.Web3Provider(web3.currentProvider);
+let signer = providerSign.getSigner();
+let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
+
+console.log(providerSign, signer, contractSign);
 
 function timestampToDate(unixtime) {
 
@@ -319,17 +324,12 @@ function timestampToDate(unixtime) {
 		':' + ('0' + u.getUTCSeconds()).slice(-2)
 }
 
-async function getSigner() {
-	let signer = await web3Provider.getSigner();
-	console.log(signer);
-}
-
 async function obtemBoletoHash() {
 	let frm = document.boletoForm
 	try {
-		if (contract) {
-			let details = await contract.detalhesBoleto(frm.boleto.value)
-			let view = await contract.verBoleto(frm.boleto.value)
+		if (contractRead) {
+			let details = await contractRead.detalhesBoleto(frm.boleto.value)
+			let view = await contractRead.verBoleto(frm.boleto.value)
 			console.log(details, view)
 			document.getElementById("searchBoleto").style.display = "none"
 			document.getElementById("viewBoleto").style.display = "block"
@@ -345,12 +345,12 @@ async function obtemBoletoHash() {
 			document.getElementById("dataLimiteBoleto").innerHTML = timestampToDate(view[4]);
 			document.getElementById("linkBoleto").innerHTML = "https://boleto.com.br/" + details[0];
 			if (details[2] === false && details[3] === false) {
-				let recipe = await contract.reciboBoleto(frm.boleto.value)
+				let recipe = await contractRead.reciboBoleto(frm.boleto.value)
 				console.log(recipe)
 				document.getElementById("inactiveBoleto").style.display = "inline"
 			}
 			else if (details[2] === true && details[3] === true) {
-				let recipe = await contract.reciboBoleto(frm.boleto.value)
+				let recipe = await contractRead.reciboBoleto(frm.boleto.value)
 				console.log(recipe)
 				document.getElementById("payedBoleto").style.display = "inline"
 				document.getElementById("botaoRecibo").style.display = "inline"
@@ -375,4 +375,83 @@ async function obtemBoletoHash() {
 		console.error('obtemBoletoHash', err)
 		alert("Não foi possível encontrar o boleto, tente novamente.")
 	}
+}
+
+if (!ethereum || !ethereum.isMetaMask) {
+    alert('Please install MetaMask.');
+}
+
+function loading() {
+    ethereum.send('eth_accounts')
+    .then(handleAccountsChanged)
+    .catch(err => {
+        if (err.code === 4100) { 
+            console.log('Please connect to MetaMask.')
+        } else {
+            console.error(err)
+        }
+    }) 
+}
+
+ethereum.on('accountsChanged', handleAccountsChanged)
+
+function handleAccountsChanged (accounts) {
+    console.log('handleAccountsChanged', accounts.length);
+    providerSign = new ethers.providers.Web3Provider(web3.currentProvider);
+    signer = providerSign.getSigner();
+    contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
+    if (accounts.length === 0) {
+        // MetaMask is locked or the user has not connected any accounts
+        console.log('Please connect to MetaMask.')        
+    } else if (accounts[0] !== currentAccount) {  
+        currentAccount = accounts[0];        
+        if (currentAccount) {            
+            console.log('handleAccountsChanged objects', accounts, currentAccount, signer);
+        }
+    }
+}
+
+function connectToWeb3() {  
+    console.log('connectToWeb3 called');
+    ethereum.send('eth_requestAccounts')
+    .then(handleAccountsChanged)
+    .catch(err => {
+      if (err.code === 4001) { // EIP 1193 userRejectedRequest error
+        console.log('Please connect to MetaMask.')
+      } else {
+        console.error(err)
+      }
+    })    
+}
+
+
+function executePayment() {
+	let hash = document.hashBoleto.value
+	let amount = document.valorAtualizadoBoleto.value
+	let sender = "Não Identificado"     
+    var boxCommStatus = document.getElementById("boxCommStatus");
+    boxCommStatus.innerHTML = "Sending transaction...";
+    var additionalSettings = {
+        value: ethers.utils.parseUnits(amount, 'wei')
+    }; 
+    contractSign.pay(hash, sender, additionalSettings)
+    .then( (tx) => {
+        console.log("executePayment - Transaction ", tx);   
+        boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";
+        tx.wait()
+        .then( (resultFromContract) => {
+            console.log("executePayment - the result was ", resultFromContract);
+            boxCommStatus.innerHTML = "Transaction executed.";
+        })        
+        .catch( (err) => {
+            console.error("executePayment - after tx being mint");
+            console.error(err);
+            boxCommStatus.innerHTML = "Algo saiu errado: " + err.message;
+        })
+    })
+    .catch( (err) => {
+        console.error("executePayment - tx has been sent");
+        console.error(err);
+        boxCommStatus.innerHTML = "Something went wrong: " + err.message;
+    })
 }
