@@ -24,15 +24,15 @@ function timestampToDate(unixtime) {
 }
 
 async function obtemBoletoHash() {
-	let frm = document.boletoForm
+	let frmSearch = document.boletoForm
 	try {
 		if (contractRead) {
-			let details = await contractRead.detalhesBoleto(frm.boleto.value)
-			let view = await contractRead.verBoleto(frm.boleto.value)
+			let details = await contractRead.detalhesBoleto(frmSearch.boleto.value)
+			let view = await contractRead.verBoleto(frmSearch.boleto.value)
 			console.log(details, view)
 			document.getElementById("searchBoleto").style.display = "none"
 			document.getElementById("viewBoleto").style.display = "block"
-			document.getElementById("hashBoleto").innerHTML = details[0];
+			document.getElementById("codigoBoleto").innerHTML = details[0];
 			document.getElementById("dataDaCraiacaoBoleto").innerHTML = timestampToDate(details[1]);
 			document.getElementById("ownerBoleto").innerHTML = details[4];
 			document.getElementById("ownerIdBoleto").innerHTML = details[5];
@@ -40,16 +40,17 @@ async function obtemBoletoHash() {
 			document.getElementById("multaPorAtrasoBoleto").innerHTML = view[1] / 1000000000000000000;
 			document.getElementById("jurosDeMoraBoleto").innerHTML = view[2];
 			document.getElementById("vencimentoBoleto").innerHTML = timestampToDate(view[3]);
-			document.getElementById("valorAtualizadoBoleto").innerHTML = view[5] / 1000000000000000000;
 			document.getElementById("dataLimiteBoleto").innerHTML = timestampToDate(view[4]);
 			document.getElementById("linkBoleto").innerHTML = "https://boleto.com.br/" + details[0];
+			document.getElementById("hashBoleto").value = details[0];
+			document.getElementById("valorAtualizadoBoleto").value = view[5];
 			if (details[2] === false && details[3] === false) {
-				let recipe = await contractRead.reciboBoleto(frm.boleto.value)
+				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
 				document.getElementById("inactiveBoleto").style.display = "inline"
 			}
 			else if (details[2] === true && details[3] === true) {
-				let recipe = await contractRead.reciboBoleto(frm.boleto.value)
+				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
 				document.getElementById("payedBoleto").style.display = "inline"
 				document.getElementById("botaoRecibo").style.display = "inline"
@@ -127,7 +128,7 @@ function connectToWeb3() {
 function executePayment() {
 	let frm = document.boletoPayForm
 	let hash = frm.hashBoleto.value
-	let amount = frm.valorAtualizadoBoleto.value*1000000000000000000
+	let amount = frm.valorAtualizadoBoleto.value
 	let sender = "Não Identificado"     
     var boxCommStatus = document.getElementById("boxCommStatus");
     boxCommStatus.innerHTML = "Sending transaction...";

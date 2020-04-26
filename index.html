@@ -78,6 +78,7 @@
                         <div class="card-body">
                             <h1><i class="fa fa-money-check-alt text-primary"></i></h1>
                             <h4 class="card-title">Título de Pagamento</h4>
+                            <small class="lead-4">Criado em: <span id="dataDaCraiacaoBoleto"></span></small>
                             <div class="button-group mt-2 mb-4">
                                 <span style="display:none;" id="activeBoleto" class="badge badge-success">Ativo</span>
                                 <span style="display:none;" id="inactiveBoleto"
@@ -108,15 +109,31 @@
                 </div>
             </div>
         </div>
-        <form class="form" action="#" method="post" id="boletoPayForm" name="boletoPayForm">
-            <h4>Valor atualizado: <span id="valorAtualizadoBoleto"></span> ETH</h4>
-            <p class="lead-1 mt-2">Boleto <span id="hashBoleto"></span><br><small class="lead-1">Criado
-                    em: <span id="dataDaCraiacaoBoleto"></span></small></p>
-            <div class="col-md-12 mt-4">
-                <button class="btn btn-lg btn-success" style="display:none;" type="submit" id="botaoPay"
-                    onclick="executePayment(); return false;">Pagar Boleto</button>
+
+        <div class="row">
+            <div class="col-md-3 align-items-center"></div>
+            <div class="col-md-6 align-items-center">
+                <form class="form" action="#" method="get" id="boletoPayForm" name="boletoPayForm">
+                    <fieldset disabled>
+                        <div class="form-group">
+                            <label for="disabledTextInput">Código do Boleto</label>
+                            <input type="text" id="hashBoleto" class="form-control"
+                                placeholder="Value">
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledTextInput">Valor Atualizado (Wei)</label>
+                            <input type="text" id="valorAtualizadoBoleto" class="form-control"
+                                placeholder="Value">
+                        </div>
+                    </fieldset>
+                    <div class="col-md-12 mt-4">
+                        <button class="btn btn-lg btn-success" style="display:none;" type="submit" id="botaoPay"
+                            onclick="executePayment(); return false;">Pagar Boleto</button>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="col-md-3 align-items-center"></div>
+        </div>
         <div>
             &nbsp;
         </div>
