@@ -93,7 +93,8 @@
                                     class="lead-1"><span id="payerBoleto"></span></small></p>
                             <p class="lead-5" id="dataDoPagamentoBoletoDiv">Data do pagamento: <span
                                     id="dataDoPagamentoBoleto"></span></p>
-                            <p class="lead-5" id="valorPagoBoletoDiv">Valor pago: <span id="valorPagoBoleto"></span> ETH</p>
+                            <p class="lead-5" id="valorPagoBoletoDiv">Valor pago: <span id="valorPagoBoleto"></span> ETH
+                            </p>
                             <p class="lead-5">Valor: <span id="valorDoBoleto"></span> ETH</p>
                             <p class="lead-5">Multa por atraso: <span id="multaPorAtrasoBoleto"></span> ETH</p>
                             <p class="lead-5">Juros ao dia: <span id="jurosDeMoraBoleto"></span> %</p>
@@ -110,12 +111,12 @@
         <form class="form" method="get" id="boletoPayForm" name="boletoPayForm">
             <h4>Valor atualizado: <span id="valorAtualizadoBoleto"></span> ETH</h4>
             <p class="lead-1 mt-2">Boleto <span id="hashBoleto"></span><br><small class="lead-1">Criado
-                em: <span id="dataDaCraiacaoBoleto"></span></small></p>
+                    em: <span id="dataDaCraiacaoBoleto"></span></small></p>
             <div class="col-md-12 mt-4">
                 <button class="btn btn-lg btn-success" style="display:none;" type="submit" id="botaoPay"
                     onclick="executePayment(); return false;">Pagar Boleto</button>
             </div>
-        </div>
+        </form>
         <div>
             &nbsp;
         </div>
@@ -123,9 +124,8 @@
             (Blockchain communication status)
         </div>
         <div class="button-group mt-4">
-            <button class="btn btn-info" id="botaoVoltar" onclick="reloadPage()"
-            data-toggle="tooltip" data-placement="top" title="Nova pesquisa"><i
-                class="fa fa-arrow-left"></i></button>
+            <button class="btn btn-info" id="botaoVoltar" onclick="reloadPage()" data-toggle="tooltip"
+                data-placement="top" title="Nova pesquisa"><i class="fa fa-arrow-left"></i></button>
             <button class="btn btn-info ml-2" style="display:none;" id="botaoPrint" onclick="PrintElem(cardBoleto)"
                 data-toggle="tooltip" data-placement="top" title="Salvar cópia do boleto"><i
                     class="fa fa-print"></i></button>
