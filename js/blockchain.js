@@ -93,7 +93,7 @@ function loading() {
     }) 
 }
 
-ethereum.on('accountsChanged', handleAccountsChanged)
+ethereum.enable('accountsChanged', handleAccountsChanged)
 
 function handleAccountsChanged (accounts) {
     console.log('handleAccountsChanged', accounts.length);
@@ -132,10 +132,7 @@ function executePayment() {
 	let sender = "Não Identificado"     
     var boxCommStatus = document.getElementById("boxCommStatus");
     boxCommStatus.innerHTML = "Sending transaction...";
-    var additionalSettings = {
-        value: ethers.utils.parseUnits(amount, 'wei')
-    }; 
-    contractSign.pay(hash, sender, additionalSettings)
+    contractSign.pay(hash, sender, amount)
     .then( (tx) => {
         console.log("executePayment - Transaction ", tx);   
         boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";

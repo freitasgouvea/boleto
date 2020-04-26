@@ -114,7 +114,7 @@
         <div class="row">
             <div class="col-md-3 align-items-center"></div>
             <div class="col-md-6 align-items-center">
-                <form class="form" action="#" method="get" id="boletoPayForm" name="boletoPayForm">
+                <form class="form" action="#" method="post" id="boletoPayForm" name="boletoPayForm">
                     <fieldset disabled>
                         <div class="form-group">
                             <label for="disabledTextInput">Código do Boleto</label>
@@ -129,7 +129,7 @@
                     </fieldset>
                     <div class="col-md-12 mt-4">
                         <button class="btn btn-lg btn-success" style="display:none;" type="submit" id="botaoPay"
-                            onclick="executePayment(); return false;">Pagar Boleto</button>
+                            onclick="executePayment();">Pagar Boleto</button>
                     </div>
                 </form>
             </div>
