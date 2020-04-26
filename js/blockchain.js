@@ -1,15 +1,23 @@
 let contractAddress = "0xAbaC6e1dDcE1c2B4dafBD6E6a1Adb3096Fe2Cb61";
 
-let currentAccount;
-
 let providerRead = new ethers.providers.InfuraProvider('rinkeby', 'd7af4ca348a2460aadd341988fee82fd');
 let contractRead = new ethers.Contract(contractAddress, contractAbi, providerRead);
 
 let providerSign = new ethers.providers.Web3Provider(web3.currentProvider);
 let signer = providerSign.getSigner();
+
 let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 
 console.log(providerSign, signer, contractSign);
+
+async function load() {
+
+	let ethereum = window.ethereum;
+
+    // Request account access if needed
+    await ethereum.enable();
+
+}
 
 function timestampToDate(unixtime) {
 
@@ -22,6 +30,7 @@ function timestampToDate(unixtime) {
 		':' + ('0' + u.getUTCMinutes()).slice(-2) +
 		':' + ('0' + u.getUTCSeconds()).slice(-2)
 }
+
 
 async function obtemBoletoHash() {
 	let frmSearch = document.boletoForm
@@ -77,84 +86,34 @@ async function obtemBoletoHash() {
 	}
 }
 
-//web3
+let frm = document.boletoPayForm
+let hash = frm.hashBoleto.value
+let amount = frm.valorAtualizadoBoleto.value
+let sender = "Não Identificado"  
 
-if (!ethereum || !ethereum.isMetaMask) {
-    alert('Please install MetaMask.');
-}
-
-function loading() {
-    ethereum.send('eth_accounts')
-    .then(handleAccountsChanged)
-    .catch(err => {
-        if (err.code === 4100) { 
-            console.log('Please connect to MetaMask.')
-        } else {
-            console.error(err)
-        }
-    }) 
-}
-
-ethereum.enable('accountsChanged', handleAccountsChanged)
-
-function handleAccountsChanged (accounts) {
-    console.log('handleAccountsChanged', accounts.length);
-    providerSign = new ethers.providers.Web3Provider(web3.currentProvider);
-    signer = providerSign.getSigner();
-    contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
-    if (accounts.length === 0) {
-        // MetaMask is locked or the user has not connected any accounts
-        console.log('Please connect to MetaMask.')        
-    } else if (accounts[0] !== currentAccount) {  
-        currentAccount = accounts[0];        
-        if (currentAccount) {            
-            console.log('handleAccountsChanged objects', accounts, currentAccount, signer);
-        }
-    }
-}
-
-function connectToWeb3() {  
-    console.log('connectToWeb3 called');
-    ethereum.send('eth_requestAccounts')
-    .then(handleAccountsChanged)
-    .catch(err => {
-      if (err.code === 4001) {
-        console.log('Please connect to MetaMask.')
-      } else {
-        console.error(err)
-      }
-    })    
-}
+/*
 
 
-function executePayment() {
+export async function payWithMetamask(sender, receiver, strEther) {
 	
-	let frm = document.boletoPayForm
-	let hash = frm.hashBoleto.value
-	let amount = frm.valorAtualizadoBoleto.value
-	let sender = "Não Identificado"     
+	console.log(`payWithMetamask(receiver=${receiver}, sender=${sender}, strEther=${strEther})`)
 
-	var boxCommStatus = document.getElementById("boxCommStatus");
-	boxCommStatus.innerHTML = "Sending transaction...";
-	
-    contractSign.pagarBoleto(sender, hash, amount)
-    .then( (tx) => {
-        console.log("executePayment - Transaction ", tx);   
-        boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";
-        tx.wait()
-        .then( (resultFromContract) => {
-            console.log("executePayment - the result was ", resultFromContract);
-            boxCommStatus.innerHTML = "Transaction executed.";
-        })        
-        .catch( (err) => {
-            console.error("executePayment - after tx being mint");
-            console.error(err);
-            boxCommStatus.innerHTML = "Algo saiu errado: " + err.message;
-        })
-    })
-    .catch( (err) => {
-        console.error("executePayment - tx has been sent");
-        console.error(err);
-        boxCommStatus.innerHTML = "Something went wrong: " + err.message;
-    })
+    let ethereum = window.ethereum;
+
+    // Request account access if needed
+    await ethereum.enable();
+
+    let provider = new ethers.providers.Web3Provider(ethereum);
+
+    // Acccounts now exposed
+    const params = [{
+        from: sender,
+        to: receiver,
+        value: ethers.utils.parseUnits(strEther, 'ether').toHexString()
+    }];
+
+    const transactionHash = await provider.send('eth_sendTransaction', params)
+    console.log('transactionHash is ' + transactionHash);
 }
+
+*/
