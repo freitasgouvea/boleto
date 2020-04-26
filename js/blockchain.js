@@ -77,6 +77,8 @@ async function obtemBoletoHash() {
 	}
 }
 
+//web3
+
 if (!ethereum || !ethereum.isMetaMask) {
     alert('Please install MetaMask.');
 }
@@ -126,12 +128,15 @@ function connectToWeb3() {
 
 
 function executePayment() {
+	
 	let frm = document.boletoPayForm
 	let hash = frm.hashBoleto.value
 	let amount = frm.valorAtualizadoBoleto.value
 	let sender = "Não Identificado"     
-    var boxCommStatus = document.getElementById("boxCommStatus");
-    boxCommStatus.innerHTML = "Sending transaction...";
+
+	var boxCommStatus = document.getElementById("boxCommStatus");
+	boxCommStatus.innerHTML = "Sending transaction...";
+	
     contractSign.pagarBoleto(hash, sender, amount)
     .then( (tx) => {
         console.log("executePayment - Transaction ", tx);   
