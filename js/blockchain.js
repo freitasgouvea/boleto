@@ -416,7 +416,7 @@ function connectToWeb3() {
     ethereum.send('eth_requestAccounts')
     .then(handleAccountsChanged)
     .catch(err => {
-      if (err.code === 4001) { // EIP 1193 userRejectedRequest error
+      if (err.code === 4001) {
         console.log('Please connect to MetaMask.')
       } else {
         console.error(err)
@@ -427,7 +427,7 @@ function connectToWeb3() {
 
 function executePayment() {
 	let hash = document.hashBoleto.value
-	let amount = document.valorAtualizadoBoleto.value
+	let amount = document.valorAtualizadoBoleto.value*1000000000000000000
 	let sender = "Não Identificado"     
     var boxCommStatus = document.getElementById("boxCommStatus");
     boxCommStatus.innerHTML = "Sending transaction...";
