@@ -125,8 +125,9 @@ function connectToWeb3() {
 
 
 function executePayment() {
-	let hash = document.hashBoleto.value
-	let amount = document.valorAtualizadoBoleto.value*1000000000000000000
+	let frm = document.boletoPayForm
+	let hash = frm.hashBoleto.value
+	let amount = frm.valorAtualizadoBoleto.value*1000000000000000000
 	let sender = "Não Identificado"     
     var boxCommStatus = document.getElementById("boxCommStatus");
     boxCommStatus.innerHTML = "Sending transaction...";
