@@ -154,11 +154,12 @@
     <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
     </script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.4/dist/web3.min.js"></script>
+    <script src="./js/abi.js"></script>
     <script src="./js/blockchain.js"></script>
 
     <!-- Misc Scripts -->
     <script>
-        boletoURL = "https://freitasgouvea.github.io/boleto/boleto?"
+        boletoURL = "https://freitasgouvea.github.io/boleto?"
         language = navigator.language.substring(0, 2)
         console.log(boletoURL + $('#boleto').val())
 
@@ -187,7 +188,7 @@
         })
 
         function pagePrint() {
-            window.open("https://laurea.com.br/futurelaw/print?" + hashCertificadoLink);
+            window.open("https://freitasgouvea.github.io/print?" + hashCertificadoLink);
         }
 
         function reloadPage() {
