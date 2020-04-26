@@ -132,7 +132,7 @@ function executePayment() {
 	let sender = "Não Identificado"     
     var boxCommStatus = document.getElementById("boxCommStatus");
     boxCommStatus.innerHTML = "Sending transaction...";
-    contractSign.pay(hash, sender, amount)
+    contractSign.pagarBoleto(hash, sender, amount)
     .then( (tx) => {
         console.log("executePayment - Transaction ", tx);   
         boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";
