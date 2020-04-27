@@ -90,7 +90,7 @@ async function executePayment() {
 	let frm = document.boletoPayForm
 	let hashBoleto = ethers.utils.parseBytes32String(frm.hashBoleto.value)
 	let _payerID = "Anonimo" 
-	//let value = frm.valorAtualizadoBoleto.value
+	let value = frm.valorAtualizadoBoleto.value
 
 	let overrides = {
 		gasLimit: 10000000
@@ -98,7 +98,7 @@ async function executePayment() {
 	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(hashBoleto, _payerID, overrides )
+			let payment = await contractSign.pagarBoleto(hashBoleto, _payerID, { from: signer, gas: 10000000, value: value }, overrides )
 			console.log(payment.hash)
 			alert("Boleto processado sob o número " + payment.hash)
 		}
