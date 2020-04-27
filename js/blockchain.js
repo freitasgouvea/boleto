@@ -94,11 +94,12 @@ async function obtemBoletoHash() {
 async function executePayment() {
 	let _payerID = "Anonimo" 
 	let overrides = {
+		value: valueBoleto,
 		gasLimit: 10000000
 	};	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, { from: signer, gas: 3000000, value: valueBoleto }, overrides )
+			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, overrides )
 			console.log(payment.hash)
 			alert("Boleto processado sob o número " + payment.hash)
 		}
