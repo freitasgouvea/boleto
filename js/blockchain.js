@@ -64,6 +64,7 @@ async function obtemBoletoHash() {
 				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
 				document.getElementById("paymentDiv").style.display = "none"
+				document.getElementById("linkBoletoDiv").style.display = "none"
 				document.getElementById("payedBoleto").style.display = "inline"
 				document.getElementById("payerBoleto").innerHTML = recipe[2];
 				document.getElementById("payerIdBoleto").innerHTML = recipe[3];
