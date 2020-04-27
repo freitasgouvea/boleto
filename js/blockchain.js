@@ -8,6 +8,10 @@ let signer = providerSign.getSigner();
 
 let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 
+let codeBoleto = 0;
+let valueBoleto = 0;
+
+
 console.log(providerSign, signer, contractSign);
 
 async function load() {
@@ -51,6 +55,8 @@ async function obtemBoletoHash() {
 			document.getElementById("linkBoleto").innerHTML = "https://boleto.com.br/" + details[0];
 			document.getElementById("hashBoleto").value = details[0];
 			document.getElementById("valorAtualizadoBoleto").value = view[5];
+			codeBoleto = details[0];
+			valueBoleto = view[5];
 			if (details[2] === false && details[3] === false) {
 				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
@@ -87,10 +93,7 @@ async function obtemBoletoHash() {
 
 async function executePayment() {
 
-	let frm = document.boletoPayForm
-	let hashBoleto = ethers.utils.parseBytes32String(frm.hashBoleto.value)
 	let _payerID = "Anonimo" 
-	let value = frm.valorAtualizadoBoleto.value
 
 	let overrides = {
 		gasLimit: 10000000
@@ -98,7 +101,7 @@ async function executePayment() {
 	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(hashBoleto, _payerID, { from: signer, gas: 10000000, value: value }, overrides )
+			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, { from: signer, gas: 10000000, value: valueBoleto }, overrides )
 			console.log(payment.hash)
 			alert("Boleto processado sob o número " + payment.hash)
 		}
