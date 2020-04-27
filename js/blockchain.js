@@ -10,7 +10,7 @@ let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 
 var codeBoleto;
 var valueBoleto;
-var boxCommStatus = document.getElementById("boxCommStatus");
+
 
 console.log(providerSign, signer, contractSign);
 
@@ -53,7 +53,6 @@ async function obtemBoletoHash() {
 			document.getElementById("vencimentoBoleto").innerHTML = timestampToDate(view[3]);
 			document.getElementById("dataLimiteBoleto").innerHTML = timestampToDate(view[4]);
 			document.getElementById("linkBoleto").innerHTML = "https://boleto.com.br/" + details[0];
-			document.getElementById("hashBoleto").value = details[0];
 			document.getElementById("valorAtualizadoBoleto").value = view[5];
 			codeBoleto = details[0];
 			valueBoleto = view[5];
@@ -65,10 +64,8 @@ async function obtemBoletoHash() {
 			else if (details[2] === true && details[3] === true) {
 				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
+				document.getElementById("paymentDiv").style.display = "none"
 				document.getElementById("payedBoleto").style.display = "inline"
-				document.getElementById("botaoRecibo").style.display = "inline"
-				document.getElementById("ownerBoletoRecibo").innerHTML = recipe[0];
-				document.getElementById("ownerIdBoletoRecibo").innerHTML = recipe[1];
 				document.getElementById("payerBoleto").innerHTML = recipe[2];
 				document.getElementById("payerIdBoleto").innerHTML = recipe[3];
 				document.getElementById("dataDoPagamentoBoleto").innerHTML = timestampToDate(recipe[4]);
@@ -99,25 +96,12 @@ async function executePayment() {
 	try {
 		if (contractSign) {
 			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, overrides )
-			.then( (tx) => {
-				console.log("executePayment - Transaction ", tx);   
-				boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";
-				tx.wait()
-				.then( (resultFromContract) => {
-					console.log("executePayment - the result was ", resultFromContract);
-					boxCommStatus.innerHTML = "Transaction executed.";
-				})        
-				.catch( (err) => {
-					console.error("executePayment - after tx being mint");
-					console.error(err);
-					boxCommStatus.innerHTML = "Algo saiu errado: " + err.message;
-				})
-			})
 			console.log(payment.hash)
-			alert("Pagamento processado sob o número " + payment.hash)
+			alert("Boleto processado na transação nº: " + payment.hash)
 		}
 	} catch (err) {
 		console.error('obtemBoletoHash', err)
 		alert("Não foi possível realizar o pagamento, tente novamente.")
 	}	
 }
+
