@@ -64,7 +64,6 @@ async function obtemBoletoHash() {
 				let recipe = await contractRead.reciboBoleto(frmSearch.boleto.value)
 				console.log(recipe)
 				document.getElementById("paymentDiv").style.display = "none"
-				document.getElementById("linkBoletoDiv").style.display = "none"
 				document.getElementById("payedBoleto").style.display = "inline"
 				document.getElementById("payerBoleto").innerHTML = recipe[2];
 				document.getElementById("payerIdBoleto").innerHTML = recipe[3];
@@ -90,12 +89,14 @@ async function executePayment() {
 	let _payerID = "Anonimo" 
 	let overrides = {
 		value: valueBoleto,
+		gasPrice: utils.parseUnits('9.0', 'gwei'),
 		gasLimit: 10000000
 	};	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, overrides )
-			console.log(payment.hash)
+			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, overrides).then((result) => {
+				console.log(result);
+			});
 			alert("Boleto processado na transação nº: " + payment.hash)
 		}
 	} catch (err) {
