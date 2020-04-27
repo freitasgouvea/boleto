@@ -13,10 +13,8 @@ console.log(providerSign, signer, contractSign);
 async function load() {
 
 	let ethereum = window.ethereum;
-
     // Request account access if needed
     await ethereum.enable();
-
 }
 
 function timestampToDate(unixtime) {
@@ -86,10 +84,27 @@ async function obtemBoletoHash() {
 	}
 }
 
-let frm = document.boletoPayForm
-let hash = frm.hashBoleto.value
-let amount = frm.valorAtualizadoBoleto.value
-let sender = "Não Identificado"  
+
+async function executePayment() {
+
+	let frm = document.boletoPayForm
+	let hash = frm.hashBoleto.value
+	let amount = frm.valorAtualizadoBoleto.value
+	let sender = "Não Identificado" 
+	
+	try {
+		if (contractSign) {
+			let payment = await contractSign.pagarBoleto(hash, sender, { from: sender, gas: 3000000, value: amount } )
+			console.log(payment)
+		}
+	} catch (err) {
+		console.error('obtemBoletoHash', err)
+		alert("Não foi possível realizar o pagamento, tente novamente.")
+	}
+		
+}
+
+
 
 /*
 
