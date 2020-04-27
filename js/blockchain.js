@@ -100,7 +100,7 @@ async function executePayment() {
 	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(hash, sender, { from: sender, gas: 3000000, value: amount }, overrides )
+			let payment = await contractSign.pagarBoleto(hash, sender, overrides )
 			console.log(payment.hash)
 			alert("Boleto processado sob o número " + payment.hash)
 		}
