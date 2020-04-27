@@ -8,8 +8,8 @@ let signer = providerSign.getSigner();
 
 let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 
-let codeBoleto = 0;
-let valueBoleto = 0;
+var codeBoleto;
+var valueBoleto;
 
 
 console.log(providerSign, signer, contractSign);
@@ -92,24 +92,20 @@ async function obtemBoletoHash() {
 
 
 async function executePayment() {
-
 	let _payerID = "Anonimo" 
-
 	let overrides = {
 		gasLimit: 10000000
-	};
-	
+	};	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, { from: signer, gas: 10000000, value: valueBoleto }, overrides )
+			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, { from: signer, gas: 3000000, value: valueBoleto }, overrides )
 			console.log(payment.hash)
 			alert("Boleto processado sob o número " + payment.hash)
 		}
 	} catch (err) {
 		console.error('obtemBoletoHash', err)
 		alert("Não foi possível realizar o pagamento, tente novamente.")
-	}
-		
+	}	
 }
 
 
