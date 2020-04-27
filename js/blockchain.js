@@ -10,7 +10,7 @@ let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 
 var codeBoleto;
 var valueBoleto;
-
+var boxCommStatus = document.getElementById("boxCommStatus");
 
 console.log(providerSign, signer, contractSign);
 
@@ -90,7 +90,6 @@ async function obtemBoletoHash() {
 	}
 }
 
-
 async function executePayment() {
 	let _payerID = "Anonimo" 
 	let overrides = {
@@ -100,40 +99,25 @@ async function executePayment() {
 	try {
 		if (contractSign) {
 			let payment = await contractSign.pagarBoleto(codeBoleto, _payerID, overrides )
+			.then( (tx) => {
+				console.log("executePayment - Transaction ", tx);   
+				boxCommStatus.innerHTML = "Transaction sent. Waiting for the result...";
+				tx.wait()
+				.then( (resultFromContract) => {
+					console.log("executePayment - the result was ", resultFromContract);
+					boxCommStatus.innerHTML = "Transaction executed.";
+				})        
+				.catch( (err) => {
+					console.error("executePayment - after tx being mint");
+					console.error(err);
+					boxCommStatus.innerHTML = "Algo saiu errado: " + err.message;
+				})
+			})
 			console.log(payment.hash)
-			alert("Boleto processado sob o número " + payment.hash)
+			alert("Pagamento processado sob o número " + payment.hash)
 		}
 	} catch (err) {
 		console.error('obtemBoletoHash', err)
 		alert("Não foi possível realizar o pagamento, tente novamente.")
 	}	
 }
-
-
-
-/*
-
-
-export async function payWithMetamask(sender, receiver, strEther) {
-	
-	console.log(`payWithMetamask(receiver=${receiver}, sender=${sender}, strEther=${strEther})`)
-
-    let ethereum = window.ethereum;
-
-    // Request account access if needed
-    await ethereum.enable();
-
-    let provider = new ethers.providers.Web3Provider(ethereum);
-
-    // Acccounts now exposed
-    const params = [{
-        from: sender,
-        to: receiver,
-        value: ethers.utils.parseUnits(strEther, 'ether').toHexString()
-    }];
-
-    const transactionHash = await provider.send('eth_sendTransaction', params)
-    console.log('transactionHash is ' + transactionHash);
-}
-
-*/
