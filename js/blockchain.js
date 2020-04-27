@@ -11,7 +11,6 @@ let contractSign = new ethers.Contract(contractAddress, contractAbi, signer);
 var codeBoleto;
 var valueBoleto;
 
-
 console.log(providerSign, signer, contractSign);
 
 async function load() {
@@ -77,7 +76,6 @@ async function obtemBoletoHash() {
 				document.getElementById("payerBoletoDiv").style.display = "none"
 				document.getElementById("dataDoPagamentoBoletoDiv").style.display = "none"
 				document.getElementById("valorPagoBoletoDiv").style.display = "none"
-				document.getElementById("botaoPay").style.display = "inline"
 				document.getElementById("botaoPrint").style.display = "inline"
 			}
 		}
