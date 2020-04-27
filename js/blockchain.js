@@ -52,7 +52,7 @@ async function obtemBoletoHash() {
 			document.getElementById("jurosDeMoraBoleto").innerHTML = view[2];
 			document.getElementById("vencimentoBoleto").innerHTML = timestampToDate(view[3]);
 			document.getElementById("dataLimiteBoleto").innerHTML = timestampToDate(view[4]);
-			document.getElementById("linkBoleto").innerHTML = "https://boleto.com.br/" + details[0];
+			document.getElementById("linkBoleto").innerHTML = "https://freitasgouvea.github.io/boleto?" + details[0];
 			document.getElementById("valorAtualizadoBoleto").value = view[5];
 			codeBoleto = details[0];
 			valueBoleto = view[5];
