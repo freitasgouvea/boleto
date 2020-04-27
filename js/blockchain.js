@@ -91,11 +91,18 @@ async function executePayment() {
 	let hash = frm.hashBoleto.value
 	let amount = frm.valorAtualizadoBoleto.value
 	let sender = "Não Identificado" 
+
+	let overrides = {
+
+		gasLimit: 10000000
+	
+	};
 	
 	try {
 		if (contractSign) {
-			let payment = await contractSign.pagarBoleto(hash, sender, { from: sender, gas: 3000000, value: amount } )
-			console.log(payment)
+			let payment = await contractSign.pagarBoleto(hash, sender, { from: sender, gas: 3000000, value: amount }, overrides )
+			console.log(payment.hash)
+			alert("Boleto processado sob o número " + payment.hash)
 		}
 	} catch (err) {
 		console.error('obtemBoletoHash', err)
